@@ -17,7 +17,10 @@ private:
     const int id;
 };
 
-
+class compareWorkouts{
+public:
+    bool operator()(Workout const &w1,Workout const &w2);
+};
 class SweatyCustomer : public Customer {
 public:
 	SweatyCustomer(std::string name, int id);
