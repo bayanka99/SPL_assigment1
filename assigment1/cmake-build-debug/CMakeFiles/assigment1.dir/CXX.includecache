@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Customer.cpp
+Customer.h
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Customer.h
+
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Customer.h
+vector
+-
+string
+-
+Workout.h
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Workout.h
+
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Trainer.cpp
+Trainer.h
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Trainer.h
+algorithm
+-
+
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Trainer.h
+vector
+-
+Customer.h
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Customer.h
+Workout.h
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Workout.h
+
+C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Workout.h
+string
+-
+
