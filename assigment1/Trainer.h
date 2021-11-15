@@ -21,6 +21,11 @@ public:
     void closeTrainer();
     int getSalary();
     bool isOpen();
+    ~Trainer();
+    Trainer(const Trainer& other);
+    Trainer(Trainer &&other);
+    Trainer& operator=(const Trainer& other);
+    Trainer& operator=(Trainer &&other);
 private:
     int capacity;
     bool open;
