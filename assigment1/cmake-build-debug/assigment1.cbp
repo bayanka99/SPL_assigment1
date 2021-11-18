@@ -86,6 +86,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Action.cpp">
+			<Option target="assigment1"/>
+		</Unit>
 		<Unit filename="C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Action.h">
 			<Option target="assigment1"/>
 		</Unit>

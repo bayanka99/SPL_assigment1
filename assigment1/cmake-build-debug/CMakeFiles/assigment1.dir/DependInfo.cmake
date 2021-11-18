@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Action.cpp" "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Action.cpp.obj"
   "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Customer.cpp" "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Customer.cpp.obj"
   "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Studio.cpp" "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Studio.cpp.obj"
   "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/Trainer.cpp" "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Trainer.cpp.obj"
