@@ -4,7 +4,7 @@
 # compile CXX with C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/Hostx86/x86/cl.exe
 CXX_DEFINES = 
 
-CXX_INCLUDES = -IC:\Users\idanl\ONEDRI~1.IL\SPL\ASSIGM~1\.
+CXX_INCLUDES = -IC:\Users\idanl\ONEDRI~1.IL\SPL\ASSIGM~2\.
 
 CXX_FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++14
 
