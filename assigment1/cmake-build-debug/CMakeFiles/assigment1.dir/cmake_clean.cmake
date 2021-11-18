@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/assigment1.dir/Action.cpp.obj"
   "CMakeFiles/assigment1.dir/Customer.cpp.obj"
   "CMakeFiles/assigment1.dir/Studio.cpp.obj"
   "CMakeFiles/assigment1.dir/Trainer.cpp.obj"

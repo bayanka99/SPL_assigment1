@@ -78,17 +78,19 @@ Trainer::~Trainer() {
     }
 }
 
-Trainer::Trainer(const Trainer &other):capacity(other.getCapacity()),open(other.open),orderList(other.orderList)
+Trainer::Trainer(const Trainer &other):capacity(other.capacity),open(other.open),orderList(other.orderList)
 {
     for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++){
-        customersList.push_back(*iter);
+        Customer* customer(*iter);
+        customersList.push_back(customer);
     }
 }
 
-Trainer::Trainer(Trainer &&other): capacity(other.getCapacity()), open(other.open), customersList(other.customersList), orderList(other.orderList) {
+Trainer::Trainer(Trainer &&other): capacity(other.getCapacity()), open(other.open){
     other.capacity=0;
     other.open= false;
-    other.orderList.clear();
+    orderList=std::move(other.orderList);
+    customersList=std::move(other.customersList);
 }
 
 Trainer &Trainer::operator=(const Trainer& other) {
@@ -98,10 +100,11 @@ Trainer &Trainer::operator=(const Trainer& other) {
         open=other.open;
         orderList=other.orderList;
         for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++) {
-            customersList.push_back(*iter);
+            Customer* customer(*iter);
+            customersList.push_back(customer);
         }
+        return  *this;
     }
-    return  *this;
 }
 
 Trainer &Trainer::operator=(Trainer &&other) {
@@ -109,17 +112,10 @@ Trainer &Trainer::operator=(Trainer &&other) {
         delete this;
         capacity=other.capacity;
         open=other.open;
-        orderList=other.orderList;
-        for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++) {
-            customersList.push_back(*iter);
-        }
+        orderList=std::move(other.orderList);
+        customersList=std::move(other.customersList);
         other.capacity=0;
         other.open= false;
-        other.orderList.clear();
-        for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++) {
-            delete *iter;
-        }
-        customersList.clear();
     }
     return *this;
 }

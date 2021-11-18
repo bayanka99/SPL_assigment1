@@ -126,6 +126,33 @@ assigment1\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\build
 .PHONY : assigment1\fast
 
+Action.obj: Action.cpp.obj
+
+.PHONY : Action.obj
+
+# target to build an object file
+Action.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Action.cpp.obj
+.PHONY : Action.cpp.obj
+
+Action.i: Action.cpp.i
+
+.PHONY : Action.i
+
+# target to preprocess a source file
+Action.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Action.cpp.i
+.PHONY : Action.cpp.i
+
+Action.s: Action.cpp.s
+
+.PHONY : Action.s
+
+# target to generate assembly for a file
+Action.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Action.cpp.s
+.PHONY : Action.cpp.s
+
 Customer.obj: Customer.cpp.obj
 
 .PHONY : Customer.obj
@@ -270,6 +297,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... assigment1
+	@echo ... Action.obj
+	@echo ... Action.i
+	@echo ... Action.s
 	@echo ... Customer.obj
 	@echo ... Customer.i
 	@echo ... Customer.s
