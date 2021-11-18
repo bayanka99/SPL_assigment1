@@ -50,24 +50,24 @@ The CXX compiler identification is MSVC, found in "C:/Users/idanl/OneDrive - pos
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_42e1e\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_42e1e.dir\build.make /nologo -L                  CMakeFiles\cmTC_42e1e.dir\build
-Building C object CMakeFiles/cmTC_42e1e.dir/CMakeCCompilerABI.c.obj
-	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @C:\Users\idanl\AppData\Local\Temp\nmEA1B.tmp
+Run Build Command(s):nmake /nologo cmTC_4fbf7\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_4fbf7.dir\build.make /nologo -L                  CMakeFiles\cmTC_4fbf7.dir\build
+Building C object CMakeFiles/cmTC_4fbf7.dir/CMakeCCompilerABI.c.obj
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @C:\Users\idanl\AppData\Local\Temp\nm1629.tmp
 CMakeCCompilerABI.c
-Linking C executable cmTC_42e1e.exe
-	"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_42e1e.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_42e1e.dir\objects1.rsp @C:\Users\idanl\AppData\Local\Temp\nmEC00.tmp
+Linking C executable cmTC_4fbf7.exe
+	"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_4fbf7.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_4fbf7.dir\objects1.rsp @C:\Users\idanl\AppData\Local\Temp\nm180F.tmp
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_7e393\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_7e393.dir\build.make /nologo -L                  CMakeFiles\cmTC_7e393.dir\build
-Building CXX object CMakeFiles/cmTC_7e393.dir/CMakeCXXCompilerABI.cpp.obj
-	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @C:\Users\idanl\AppData\Local\Temp\nmF18D.tmp
+Run Build Command(s):nmake /nologo cmTC_7241a\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_7241a.dir\build.make /nologo -L                  CMakeFiles\cmTC_7241a.dir\build
+Building CXX object CMakeFiles/cmTC_7241a.dir/CMakeCXXCompilerABI.cpp.obj
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @C:\Users\idanl\AppData\Local\Temp\nm1CA1.tmp
 CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_7e393.exe
-	"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_7e393.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_7e393.dir\objects1.rsp @C:\Users\idanl\AppData\Local\Temp\nmF21A.tmp
+Linking CXX executable cmTC_7241a.exe
+	"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_7241a.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_7241a.dir\objects1.rsp @C:\Users\idanl\AppData\Local\Temp\nm1D7D.tmp
 
 
 
