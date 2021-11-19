@@ -67,9 +67,23 @@ MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstT
 }
 
 void MoveCustomer::act(Studio &studio) {
-    Customer* customerToAdd=studio.getTrainer(srcTrainer)->getCustomer(id);
-    studio.getTrainer(srcTrainer)->removeCustomer(id);
-    studio.getTrainer(dstTrainer)->addCustomer(customerToAdd);
+
+    Trainer* trainer_soruce=studio.getTrainer(this->srcTrainer);
+    Trainer* trainer_dest=studio.getTrainer(this->dstTrainer);
+    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest.isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
+    {
+        this->error("Cannot move customer")
+    }
+    else
+    {
+        Customer* cust=trainer_soruce->getCustomer(this->id);
+        trainer_soruce->removeCustomer(this->id);
+        trainer_dest->addCustomer(cust);// i think there is no need to add pairs to dest trainer
+        if(trainer_soruce->getCustomers().size()==0)
+        {
+            trainer_soruce->closeTrainer();
+        }
+    }
 }
 
 std::string MoveCustomer::toString() const {
