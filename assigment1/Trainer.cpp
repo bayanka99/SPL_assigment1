@@ -46,7 +46,7 @@ void
 Trainer::order(const int customer_id, const std::vector<int> workout_ids, const std::vector<Workout> &workout_options) {
     for(auto iter=workout_options.begin();iter!=workout_options.end();iter++){
         if(*std::find(workout_ids.begin(),workout_ids.end(),(*iter).getId())==(*iter).getId()){
-            OrderPair pair= OrderPair((*iter).getId(),*iter);
+            OrderPair pair= OrderPair(customer_id,*iter);
             orderList.push_back(pair);
         }
     }

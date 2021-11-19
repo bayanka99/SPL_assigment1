@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "Customer.h"
+#include "main.cpp"
 
 enum ActionStatus{
     COMPLETED, ERROR
@@ -35,7 +36,7 @@ public:
     std::string toString() const;
 private:
 	const int trainerId;
-	std::vector<Customer *> customers;
+	std::vector<Customer *> customers;//implement rule of 5
 };
 
 
