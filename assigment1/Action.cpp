@@ -30,7 +30,14 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
 }
 
 void OpenTrainer::act(Studio &studio) {
-    studio.getTrainer(trainerId)->openTrainer();
+    if(studio.getTrainer(this->trainerId)== nullptr || studio.getTrainer(this->trainerId)->isOpen()==true)
+    {
+        this->error("Workout session does not exist or is already open");
+    }
+    else
+    {
+        studio.getTrainer(this->trainerId)->openTrainer();
+    }
 }
 
 std::string OpenTrainer::toString() const {

@@ -81,6 +81,17 @@ act->act(*this);
 }
 
 
+
+Trainer *Studio::getTrainer(int tid) {
+
+
+    if(this->trainers.size()>tid)
+    {
+        return this->trainers.at(tid);
+    }
+    return nullptr;
+}
+
 Studio::~Studio() {
 
     this->workout_options.clear();
