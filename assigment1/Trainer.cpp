@@ -65,6 +65,7 @@ void Trainer::openTrainer() {
 }
 
 void Trainer::closeTrainer() {
+
     open= false;
 }
 

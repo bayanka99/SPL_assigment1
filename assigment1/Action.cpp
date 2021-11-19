@@ -70,9 +70,9 @@ void MoveCustomer::act(Studio &studio) {
 
     Trainer* trainer_soruce=studio.getTrainer(this->srcTrainer);
     Trainer* trainer_dest=studio.getTrainer(this->dstTrainer);
-    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest.isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
+    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest->isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
     {
-        this->error("Cannot move customer")
+        this->error("Cannot move customer");
     }
     else
     {
@@ -95,7 +95,22 @@ Close::Close(int id):trainerId(id) {
 }
 
 void Close::act(Studio &studio) {
-    studio.getTrainer(trainerId)->closeTrainer();
+    Trainer* trainer=studio.getTrainer(this->trainerId);
+    if(trainer== nullptr || trainer->isOpen()==false)
+    {
+        std::cout<<"Trainer does not exist or is not open"<<std::endl;
+    }
+    else {
+        std::cout << "Trainer 2 closed. Salary "<<trainer->getSalary()<<" NIS"<<std::endl;
+        for(auto customer=trainer->getCustomers().begin();customer!=trainer->getCustomers().end();customer++)
+        {
+            delete *customer;
+        }
+        trainer->closeTrainer();
+
+    }
+
+
 }
 
 std::string Close::toString() const {
@@ -107,9 +122,12 @@ CloseAll::CloseAll() {
 }
 
 void CloseAll::act(Studio &studio) {
-    for(auto iter=studio.getTrainers().begin();iter!=iter=studio.getTrainers().end();iter++){
-        (*iter)->closeTrainer();
-        delete *iter;
+    for(int i=0;i<studio.getNumOfTrainers();i++)
+    {
+        std::cout << "Trainer "<<i<<" Salary "<<studio.getTrainer(i)->getSalary()<<" NIS"<<std::endl;//if they are listed in the vector in regular order then it is ok
+        studio.getTrainer(i)->closeTrainer();
+        delete studio.getTrainer(i);
+
     }
 }
 
