@@ -48,6 +48,7 @@ Trainer::order(const int customer_id, const std::vector<int> workout_ids, const 
         if(*std::find(workout_ids.begin(),workout_ids.end(),(*iter).getId())==(*iter).getId()){
             OrderPair pair= OrderPair(customer_id,*iter);
             orderList.push_back(pair);
+
         }
     }
 }
