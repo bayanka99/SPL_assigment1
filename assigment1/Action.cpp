@@ -140,10 +140,10 @@ PrintWorkoutOptions::PrintWorkoutOptions() {
 }
 
 void PrintWorkoutOptions::act(Studio &studio) {
-    for(auto iter=studio.getWorkoutOptions().begin();iter!=studio.getWorkoutOptions().end()){
-        std::string str=iter->getName()+", ";
-        str+=iter->getType()+", "+iter->getPrice();
-        std::cout<<str<<std::endl;
+    std::vector<Workout> workouts=studio.getWorkoutOptions();
+    for(auto workout=workouts.begin();workout!=workouts.end();workout++)
+    {
+        std::cout<<workout->getName()<<workout->getType()<<workout->getPrice()<<std::endl;
     }
 }
 
@@ -156,28 +156,27 @@ PrintTrainerStatus::PrintTrainerStatus(int id):trainerId(id) {
 }
 
 void PrintTrainerStatus::act(Studio &studio) {
-    Trainer* trainer=studio.getTrainer(trainerId);
-    std::string str="Trainer "+trainerId;
-    str+="status "+trainer->isOpen();
-    str+="\n";
-    str+="Customers:";
-    str+="\n";
-    int index=1;
-    for(auto iter=trainer->getCustomers().begin();iter!=trainer->getCustomers().end();iter++){
-        str+=(*iter)->getId();
-        str+=" ";
-        str+=(*iter)->getName();
-        str+=" \n";
+    if(studio.getTrainer(this->trainerId)->isOpen()==false)
+    {
+        std::cout<<"Trainer "<<this->trainerId<<" status: closed"<<std::endl;
     }
-    str+="Orders: ";
-    for(auto iter=trainer->getOrders().begin();iter!=trainer->getOrders().end();iter++){
-        str+=(*iter).second.getName()+" ";
-        str+=(*iter).second.getPrice()+" ";
-        str+=(*iter).first;
-        str+=" \n";
+    else
+    {
+        Trainer *trainer=studio.getTrainer(this->trainerId);
+        std::cout<<"Customers: "<<std::endl;
+        for(auto custom=trainer->getCustomers().begin();custom!=trainer->getCustomers().end();custom++)
+        {
+            std::cout<<(*custom)->getId()<<" "<<(*custom)->getName()<<std::endl;
+        }
+
+        std::cout<<"Orders: "<<std::endl;
+        for(auto order=trainer->getOrders().begin();order!=trainer->getOrders().end();order++)
+        {
+            std::cout<<(*order).second.getName()<<" "<<(*order).second.getPrice()<<" "<<(*order).first<<std::endl;
+        }
+        std::cout<<"current trainer's salary: "<<trainer->getSalary()<<std::endl;
+
     }
-    str+="Current Trainer’s Salary: "+trainer->getSalary();
-    std::cout<<str<<std::endl;
 }
 
 std::string PrintTrainerStatus::toString() const {

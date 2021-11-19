@@ -92,6 +92,10 @@ Trainer *Studio::getTrainer(int tid) {
     return nullptr;
 }
 
+std::vector<Workout> &Studio::getWorkoutOptions() {
+    return this->workout_options;
+}
+
 Studio::~Studio() {
 
     this->workout_options.clear();
