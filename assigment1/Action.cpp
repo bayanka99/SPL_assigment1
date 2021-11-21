@@ -18,6 +18,8 @@ void BaseAction::complete() {
 }
 
 void BaseAction::error(std::string errorMsg) {
+    this->errorMsg=errorMsg;
+    status=ERROR;
     std::cout<<errorMsg<<std::endl;
 }
 
@@ -59,8 +61,16 @@ MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstT
 
 void MoveCustomer::act(Studio &studio) {
     Customer* customerToAdd=studio.getTrainer(srcTrainer)->getCustomer(id);
-    studio.getTrainer(srcTrainer)->removeCustomer(id);
-    studio.getTrainer(dstTrainer)->addCustomer(customerToAdd);
+    Trainer* trainerSrc=studio.getTrainer(srcTrainer);
+    Trainer* trainerDst=studio.getTrainer(dstTrainer);
+    std::vector<int> ordersToMove;
+    for(auto iter=trainerSrc->getOrders().begin();iter!=trainerSrc->getOrders().end();iter++){
+        if(iter->first==id)
+            ordersToMove.push_back(iter->second.getId());
+    }
+    trainerSrc->removeCustomer(id);
+    trainerDst->addCustomer(customerToAdd);
+    trainerDst->order(id,ordersToMove,studio.getWorkoutOptions());
 }
 
 std::string MoveCustomer::toString() const {
@@ -73,6 +83,7 @@ Close::Close(int id):trainerId(id) {
 
 void Close::act(Studio &studio) {
     studio.getTrainer(trainerId)->closeTrainer();
+    std::cout<<"Trainer "<<trainerId<<" closed. Salary "<<studio.getTrainer(trainerId)->getSalary()<<"NIS"<<std::endl;
 }
 
 std::string Close::toString() const {
@@ -84,7 +95,7 @@ CloseAll::CloseAll() {
 }
 
 void CloseAll::act(Studio &studio) {
-    for(auto iter=studio.getTrainers().begin();iter!=iter=studio.getTrainers().end();iter++){
+    for(auto iter=studio.getTrainers().begin();iter!=studio.getTrainers().end();iter++){
         (*iter)->closeTrainer();
         delete *iter;
     }
@@ -99,7 +110,7 @@ PrintWorkoutOptions::PrintWorkoutOptions() {
 }
 
 void PrintWorkoutOptions::act(Studio &studio) {
-    for(auto iter=studio.getWorkoutOptions().begin();iter!=studio.getWorkoutOptions().end()){
+    for(auto iter=studio.getWorkoutOptions().begin();iter!=studio.getWorkoutOptions().end();iter++){
         std::string str=iter->getName()+", ";
         str+=iter->getType()+", "+iter->getPrice();
         std::cout<<str<<std::endl;
@@ -163,8 +174,7 @@ BackupStudio::BackupStudio() {
 }
 
 void BackupStudio::act(Studio &studio) {
-    Studio* studio1=new Studio(studio);
-    backup=studio1;
+    backup=new Studio(studio);
 }
 
 std::string BackupStudio::toString() const {
