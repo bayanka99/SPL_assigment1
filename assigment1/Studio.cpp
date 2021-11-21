@@ -294,6 +294,9 @@ BaseAction* Studio::buildaction(char * command) {
 
 
 
+
+
+
     if(current_command=="workout_options")
     {
         for(auto iter=this->workout_options.begin();iter!=this->workout_options.end();iter++)
@@ -327,13 +330,13 @@ BaseAction* Studio::buildaction(char * command) {
     }
 
 
-    if(current_command=="backup studio")
+    if(current_command=="backup")
     {
         BackupStudio backup=BackupStudio();
         backup.act(*this);
     }
 
-    if(current_command=="restore studio")
+    if(current_command=="restore")
     {
         RestoreStudio restore=RestoreStudio();
         restore.act(*this);
