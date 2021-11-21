@@ -169,8 +169,30 @@ CMakeFiles\assigment1.dir\Workout.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\assigment1.dir\Workout.cpp.s /c C:\Users\bayan\Desktop\SPL2\SPL_assigment1\assigment1\Workout.cpp
 <<
 
+CMakeFiles\assigment1.dir\Workout.cpp.obj: CMakeFiles\assigment1.dir\flags.make
+CMakeFiles\assigment1.dir\Workout.cpp.obj: ..\Workout.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/assigment1.dir/Workout.cpp.obj"
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\assigment1.dir\Workout.cpp.obj /FdCMakeFiles\assigment1.dir\ /FS -c "C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\Workout.cpp"
+<<
+
+CMakeFiles\assigment1.dir\Workout.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/assigment1.dir/Workout.cpp.i"
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe > CMakeFiles\assigment1.dir\Workout.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\Workout.cpp"
+<<
+
+CMakeFiles\assigment1.dir\Workout.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/assigment1.dir/Workout.cpp.s"
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\assigment1.dir\Workout.cpp.s /c "C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\Workout.cpp"
+<<
+
 CMakeFiles\assigment1.dir\Action.cpp.obj: CMakeFiles\assigment1.dir\flags.make
 CMakeFiles\assigment1.dir\Action.cpp.obj: ..\Action.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/assigment1.dir/Action.cpp.obj"
+	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\assigment1.dir\Action.cpp.obj /FdCMakeFiles\assigment1.dir\ /FS -c "C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\Action.cpp"
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\bayan\Desktop\SPL2\SPL_assigment1\assigment1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/assigment1.dir/Action.cpp.obj"
 	C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\assigment1.dir\Action.cpp.obj /FdCMakeFiles\assigment1.dir\ /FS -c C:\Users\bayan\Desktop\SPL2\SPL_assigment1\assigment1\Action.cpp
@@ -210,6 +232,9 @@ assigment1.exe: CMakeFiles\assigment1.dir\Workout.cpp.obj
 assigment1.exe: CMakeFiles\assigment1.dir\Action.cpp.obj
 assigment1.exe: CMakeFiles\assigment1.dir\build.make
 assigment1.exe: CMakeFiles\assigment1.dir\objects1.rsp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable assigment1.exe"
+	"C:\Program Files\JetBrains\CLion 2021.1.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\assigment1.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1428~1.299\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\assigment1.dir\objects1.rsp @<<
+ /out:assigment1.exe /implib:assigment1.lib /pdb:"C:\Users\idanl\OneDrive - post.bgu.ac.il\SPL\assigment1\cmake-build-debug\assigment1.pdb" /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\bayan\Desktop\SPL2\SPL_assigment1\assigment1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable assigment1.exe"
 	"C:\Program Files\JetBrains\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\assigment1.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\assigment1.dir\objects1.rsp @<<
  /out:assigment1.exe /implib:assigment1.lib /pdb:C:\Users\bayan\Desktop\SPL2\SPL_assigment1\assigment1\cmake-build-debug\assigment1.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 

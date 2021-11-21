@@ -3,12 +3,12 @@
 #include <sstream>
 
 
-Studio::Studio(const std::string &configFilePath)
+
+Studio::Studio(const std::string &configFilePath):open(false),id(0)
 {
     std::string configfilepath=configFilePath;// here we define the path to our desired data
     std::ifstream file(configfilepath);//here we save the whole text file as one string
     char line[500];
-
     bool i_am_empty_or_hashtag=true;
         file.getline(line,500);
         while(i_am_empty_or_hashtag) {
@@ -34,13 +34,7 @@ Studio::Studio(const std::string &configFilePath)
             i_am_empty_or_hashtag=false;
         }
     }
-
-
-
-
-
-
-        //now we want to fill our trainers with thier capacity,with row 4,5,6,5... and removing ',' or ' '(space)
+     //now we want to fill our trainers with thier capacity,with row 4,5,6,5... and removing ',' or ' '(space)
 
         //there is a chance it hase capacity of 202000
         std::string capacity_of_trainers=line;
@@ -127,24 +121,121 @@ Studio::Studio(const std::string &configFilePath)
 
 
 
+    }
+
 
 }
 
-
-void Studio::start()
+Studio::start()
 {
 
-char command[500];
-while(true)
-{
-
-std::cin.getline(command,500);// the input that a person types when software is running
-BaseAction* act=buildaction(command);//we must implement buildaction
-act->act(*this);
-//this loop will stop only when there is an order close all, we decide how to do it
+    char command[500];
+    while(true)
+    {
+      std::cin.getline(command,500);// the input that a person types when software is running
+      BaseAction* act=buildaction(command);//we must implement buildaction
+      act->act(*this);
+      //this loop will stop only when there is an order close all, we decide how to do it
+    }
 }
-}
 
+BaseAction* Studio::buildAction(char* command) {
+    std::string line=command;
+    int index=0;
+    std::string actionType="";
+    while(line.at(index)!=' ')
+    {
+        actionType+=line.at(index);
+        index++;
+    }
+    index++;
+    if(actionType=="open"||actionType=="Open"){
+        while(line.at(index)==' '){
+            index++;
+        }
+        std::string trainerId="";
+        while(line.at(index)!=' '){
+            trainerId+=line.at(index);
+            index++;
+        }
+        int id=std::stoi(trainerId);
+        std::vector<Customer *> customersList;
+        while(line.at(index)!='\0'){
+            while(line.at(index)==' '){
+                index++;
+            }
+            std::string  customerName="";
+            while(line.at(index)!=','){
+                customerName+=line.at(index);
+                index++;
+            }
+            std::string  customerType="";
+            while(line.at(index)!=' '){
+                customerType+=line.at(index);
+                index++;
+            }
+            Customer* customerToInsert;
+            if(customerType._Equal("swt"))
+                customerToInsert=new SweatyCustomer(customerName,id);
+            if(customerType._Equal("chp"))
+                customerToInsert=new CheapCustomer(customerName,id);
+            if(customerType._Equal("mcl"))
+                customerToInsert=new HeavyMuscleCustomer(customerName,id);
+            if(customerType._Equal("fbd"))
+                customerToInsert=new FullBodyCustomer(customerName,id);
+            id++;
+            customersList.push_back(customerToInsert);
+        }
+        OpenTrainer openTrainer(std::stoi(trainerId),customersList);
+        openTrainer.act(*this);
+    }
+    if(actionType=="order"||actionType=="Order"){
+        std::string trainerId="";
+        while(line.at(index)!=' '){
+            trainerId+=line.at(index);
+            index++;
+        }
+        Order order(std::stoi(trainerId));
+        order.act(*this);
+    }
+    if(actionType=="close"||actionType=="Close"){
+        std::string trainerId="";
+        while(line.at(index)!=' '){
+            trainerId+=line.at(index);
+            index++;
+        }
+        Close close(std::stoi(trainerId));
+        close.act(*this);
+    }
+    if(actionType=="move"||actionType=="Move"){
+        std::string srcTrainerId;
+        std::string dstTrainerId;
+        std::string customerId;
+        while(line.at(index)!=' '){
+            srcTrainerId+=line.at(index);
+            index++;
+        }
+        while(line.at(index)==' '){
+            index++;
+        }
+        while(line.at(index)!=' '){
+            dstTrainerId+=line.at(index);
+            index++;
+        }
+        while(line.at(index)==' '){
+            index++;
+        }
+        while(line.at(index)!=' '){
+            customerId+=line.at(index);
+            index++;
+        }
+        MoveCustomer moveCustomer(std::stoi(srcTrainerId),std::stoi(dstTrainerId),std::stoi(customerId));
+        moveCustomer.act(*this);
+    }
+    if(actionType=="closeall"||actionType=="CloseAll"||actionType=="Closeall"){
+        CloseAll closeAll();
+        closeAll().act(*this);
+    }
 
 
 
@@ -279,10 +370,6 @@ Studio &Studio::operator=(Studio &&other) {
         delete *iter;
     }
     other.actionsLog.clear();
-
-}
-
-BaseAction* Studio::buildaction(char * command) {
     std::string commandinstring=command;
     std::string current_command;
     int currentindex=0;
@@ -341,8 +428,6 @@ BaseAction* Studio::buildaction(char * command) {
         RestoreStudio restore=RestoreStudio();
         restore.act(*this);
     }
-
-
-
     return nullptr;
+  }
 }

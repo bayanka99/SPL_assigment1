@@ -231,6 +231,15 @@ Workout.cpp.i:
 .PHONY : Workout.cpp.i
 
 Workout.s: Workout.cpp.s
+
+.PHONY : Workout.s
+
+# target to generate assembly for a file
+Workout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Workout.cpp.s
+.PHONY : Workout.cpp.s
+
+assigment1.obj: assigment1.cpp.obj
 .PHONY : Workout.s
 
 # target to generate assembly for a file
