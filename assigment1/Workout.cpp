@@ -23,3 +23,14 @@ int Workout::getPrice() const {
 WorkoutType Workout::getType() const {
     return type;
 }
+
+std::string Workout::Tostring() {
+    std::string me_in_string;
+    me_in_string+=this->name;
+    me_in_string+=" , ";
+    me_in_string+=this->type;
+    me_in_string+=" , ";
+    me_in_string+=this->price;
+
+    return std::string();
+}

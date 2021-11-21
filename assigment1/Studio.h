@@ -8,6 +8,7 @@
 #include "Action.h"
 
 
+
 class Studio{		
 public:
 	Studio();
@@ -18,7 +19,13 @@ public:
 	const std::vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions
     std::vector<Workout>& getWorkoutOptions();
     std::vector<Trainer*> getTrainers();//check if I can add getter for trainers list. If not, use the destructor of studio
+
     BaseAction* buildAction(char[] command);
+    ~Studio();
+    Studio(const Studio &other);
+    Studio(Studio &&other);
+    Studio& operator=(const Studio &other);
+    Studio& operator=(Studio &&other);
 private:
     bool open;
     int id;

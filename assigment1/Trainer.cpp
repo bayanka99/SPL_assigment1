@@ -21,6 +21,13 @@ void Trainer::removeCustomer(int id) {
         if((*iter)->getId()==id){
             delete *iter;
             customersList.erase(iter);
+            for(auto iter=this->orderList.begin();iter!=orderList.end();iter++)
+            {
+                if(iter->first==id)
+                {
+                    orderList.erase(iter);
+                }
+            }
         }
     }
     for (auto iter=orderList.begin();iter!=orderList.end();iter++) {
@@ -62,6 +69,7 @@ void Trainer::openTrainer() {
 }
 
 void Trainer::closeTrainer() {
+
     open= false;
 }
 

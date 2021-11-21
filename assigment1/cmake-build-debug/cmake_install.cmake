@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1
+# Install script for directory: C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/idanl/OneDrive - post.bgu.ac.il/SPL/assigment1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

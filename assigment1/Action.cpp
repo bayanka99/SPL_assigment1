@@ -18,9 +18,10 @@ void BaseAction::complete() {
 }
 
 void BaseAction::error(std::string errorMsg) {
+
+    this->status=ERROR;
     this->errorMsg=errorMsg;
-    status=ERROR;
-    std::cout<<errorMsg<<std::endl;
+    std::cout<<"error: "<<errorMsg<<std::endl;
 }
 
 std::string BaseAction::getErrorMsg() const {
@@ -32,7 +33,14 @@ OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainer
 }
 
 void OpenTrainer::act(Studio &studio) {
-    studio.getTrainer(trainerId)->openTrainer();
+    if(studio.getTrainer(this->trainerId)== nullptr || studio.getTrainer(this->trainerId)->isOpen()==true)
+    {
+        this->error("Workout session does not exist or is already open");
+    }
+    else
+    {
+        studio.getTrainer(this->trainerId)->openTrainer();
+    }
 }
 
 std::string OpenTrainer::toString() const {
@@ -60,17 +68,29 @@ MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstT
 }
 
 void MoveCustomer::act(Studio &studio) {
-    Customer* customerToAdd=studio.getTrainer(srcTrainer)->getCustomer(id);
+
+    
     Trainer* trainerSrc=studio.getTrainer(srcTrainer);
     Trainer* trainerDst=studio.getTrainer(dstTrainer);
-    std::vector<int> ordersToMove;
-    for(auto iter=trainerSrc->getOrders().begin();iter!=trainerSrc->getOrders().end();iter++){
-        if(iter->first==id)
-            ordersToMove.push_back(iter->second.getId());
+    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest->isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
+    {
+        this->error("Cannot move customer");
     }
-    trainerSrc->removeCustomer(id);
-    trainerDst->addCustomer(customerToAdd);
-    trainerDst->order(id,ordersToMove,studio.getWorkoutOptions());
+    else{
+      Customer* customerToAdd=studio.getTrainer(srcTrainer)->getCustomer(id);
+      std::vector<int> ordersToMove;
+      for(auto iter=trainerSrc->getOrders().begin();iter!=trainerSrc->getOrders().end();iter++){
+          if(iter->first==id)
+              ordersToMove.push_back(iter->second.getId());
+      }
+      trainerSrc->removeCustomer(id);
+      trainerDst->addCustomer(customerToAdd);
+      trainerDst->order(id,ordersToMove,studio.getWorkoutOptions());
+      if(trainer_soruce->getCustomers().size()==0)
+      {
+          trainer_soruce->closeTrainer();
+      }
+    }
 }
 
 std::string MoveCustomer::toString() const {
@@ -82,8 +102,19 @@ Close::Close(int id):trainerId(id) {
 }
 
 void Close::act(Studio &studio) {
-    studio.getTrainer(trainerId)->closeTrainer();
-    std::cout<<"Trainer "<<trainerId<<" closed. Salary "<<studio.getTrainer(trainerId)->getSalary()<<"NIS"<<std::endl;
+    Trainer* trainer=studio.getTrainer(this->trainerId);
+    if(trainer== nullptr || trainer->isOpen()==false)
+    {
+        std::cout<<"Trainer does not exist or is not open"<<std::endl;
+    }
+    else {
+        std::cout<<"Trainer "<<trainerId<<" closed. Salary "<<studio.getTrainer(trainerId)->getSalary()<<"NIS"<<std::endl;
+        for(auto customer=trainer->getCustomers().begin();customer!=trainer->getCustomers().end();customer++)
+        {
+            delete *customer;
+        }
+        trainer->closeTrainer();
+    }
 }
 
 std::string Close::toString() const {
@@ -95,9 +126,13 @@ CloseAll::CloseAll() {
 }
 
 void CloseAll::act(Studio &studio) {
-    for(auto iter=studio.getTrainers().begin();iter!=studio.getTrainers().end();iter++){
-        (*iter)->closeTrainer();
-        delete *iter;
+    for(int i=0;i<studio.getNumOfTrainers();i++)
+    {
+        if(studio.getTrainer(i)->isOpen()){
+          std::cout << "Trainer "<<i<<" Salary "<<studio.getTrainer(i)->getSalary()<<" NIS"<<std::endl;//if they are listed in the vector in regular order then it is ok
+          studio.getTrainer(i)->closeTrainer();
+          delete studio.getTrainer(i);
+        }
     }
 }
 
@@ -110,10 +145,10 @@ PrintWorkoutOptions::PrintWorkoutOptions() {
 }
 
 void PrintWorkoutOptions::act(Studio &studio) {
-    for(auto iter=studio.getWorkoutOptions().begin();iter!=studio.getWorkoutOptions().end();iter++){
-        std::string str=iter->getName()+", ";
-        str+=iter->getType()+", "+iter->getPrice();
-        std::cout<<str<<std::endl;
+    std::vector<Workout> workouts=studio.getWorkoutOptions();
+    for(auto workout=workouts.begin();workout!=workouts.end();workout++)
+    {
+        std::cout<<workout->getName()<<workout->getType()<<workout->getPrice()<<std::endl;
     }
 }
 
@@ -126,28 +161,27 @@ PrintTrainerStatus::PrintTrainerStatus(int id):trainerId(id) {
 }
 
 void PrintTrainerStatus::act(Studio &studio) {
-    Trainer* trainer=studio.getTrainer(trainerId);
-    std::string str="Trainer "+trainerId;
-    str+="status "+trainer->isOpen();
-    str+="\n";
-    str+="Customers:";
-    str+="\n";
-    int index=1;
-    for(auto iter=trainer->getCustomers().begin();iter!=trainer->getCustomers().end();iter++){
-        str+=(*iter)->getId();
-        str+=" ";
-        str+=(*iter)->getName();
-        str+=" \n";
+    if(studio.getTrainer(this->trainerId)->isOpen()==false)
+    {
+        std::cout<<"Trainer "<<this->trainerId<<" status: closed"<<std::endl;
     }
-    str+="Orders: ";
-    for(auto iter=trainer->getOrders().begin();iter!=trainer->getOrders().end();iter++){
-        str+=(*iter).second.getName()+" ";
-        str+=(*iter).second.getPrice()+" ";
-        str+=(*iter).first;
-        str+=" \n";
+    else
+    {
+        Trainer *trainer=studio.getTrainer(this->trainerId);
+        std::cout<<"Customers: "<<std::endl;
+        for(auto custom=trainer->getCustomers().begin();custom!=trainer->getCustomers().end();custom++)
+        {
+            std::cout<<(*custom)->getId()<<" "<<(*custom)->getName()<<std::endl;
+        }
+
+        std::cout<<"Orders: "<<std::endl;
+        for(auto order=trainer->getOrders().begin();order!=trainer->getOrders().end();order++)
+        {
+            std::cout<<(*order).second.getName()<<" "<<(*order).second.getPrice()<<" "<<(*order).first<<std::endl;
+        }
+        std::cout<<"current trainer's salary: "<<trainer->getSalary()<<std::endl;
+
     }
-    str+="Current Trainer’s Salary: "+trainer->getSalary();
-    std::cout<<str<<std::endl;
 }
 
 std::string PrintTrainerStatus::toString() const {
@@ -161,8 +195,10 @@ PrintActionsLog::PrintActionsLog() {
 void PrintActionsLog::act(Studio &studio) {
     std::string str;
     for(auto iter=studio.getActionsLog().begin();iter!=studio.getActionsLog().end();iter++){
-        str+=(*iter)->toString()+"\n";
+        //str+=(*iter)->toString()+"\n";
+        std::cout<<(*iter)->toString()<<std::endl;
     }
+
 }
 
 std::string PrintActionsLog::toString() const {

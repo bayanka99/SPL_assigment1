@@ -36,7 +36,7 @@ public:
     std::string toString() const;
 private:
 	const int trainerId;
-	std::vector<Customer *> customers;//implement rule of 5
+	std::vector<Customer *> customers;
 };
 
 
