@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/Customer.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Customer.cpp.obj"
   "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/Studio.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Studio.cpp.obj"
   "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/Trainer.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Trainer.cpp.obj"
+  "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/Workout.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/Workout.cpp.obj"
   "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/assigment1.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/assigment1.cpp.obj"
   "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/main.cpp" "C:/Users/bayan/Desktop/SPL2/SPL_assigment1/assigment1/cmake-build-debug/CMakeFiles/assigment1.dir/main.cpp.obj"
   )

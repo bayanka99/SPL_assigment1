@@ -190,8 +190,10 @@ PrintActionsLog::PrintActionsLog() {
 void PrintActionsLog::act(Studio &studio) {
     std::string str;
     for(auto iter=studio.getActionsLog().begin();iter!=studio.getActionsLog().end();iter++){
-        str+=(*iter)->toString()+"\n";
+        //str+=(*iter)->toString()+"\n";
+        std::cout<<(*iter)->toString()<<std::endl;
     }
+
 }
 
 std::string PrintActionsLog::toString() const {

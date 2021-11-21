@@ -16,4 +16,5 @@ add_executable(assigment1
         Trainer.cpp
         Trainer.h
         Workout.h
+        Workout.cpp
         Action.cpp)

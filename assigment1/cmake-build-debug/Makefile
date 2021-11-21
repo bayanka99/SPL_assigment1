@@ -214,6 +214,30 @@ Trainer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Trainer.cpp.s
 .PHONY : Trainer.cpp.s
 
+Workout.obj: Workout.cpp.obj
+.PHONY : Workout.obj
+
+# target to build an object file
+Workout.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Workout.cpp.obj
+.PHONY : Workout.cpp.obj
+
+Workout.i: Workout.cpp.i
+.PHONY : Workout.i
+
+# target to preprocess a source file
+Workout.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Workout.cpp.i
+.PHONY : Workout.cpp.i
+
+Workout.s: Workout.cpp.s
+.PHONY : Workout.s
+
+# target to generate assembly for a file
+Workout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\assigment1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\assigment1.dir\Workout.cpp.s
+.PHONY : Workout.cpp.s
+
 assigment1.obj: assigment1.cpp.obj
 .PHONY : assigment1.obj
 
@@ -283,6 +307,9 @@ help:
 	@echo ... Trainer.obj
 	@echo ... Trainer.i
 	@echo ... Trainer.s
+	@echo ... Workout.obj
+	@echo ... Workout.i
+	@echo ... Workout.s
 	@echo ... assigment1.obj
 	@echo ... assigment1.i
 	@echo ... assigment1.s
