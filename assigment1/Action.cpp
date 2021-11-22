@@ -40,11 +40,30 @@ void OpenTrainer::act(Studio &studio) {
     else
     {
         studio.getTrainer(this->trainerId)->openTrainer();
+        complete();
     }
 }
 
 std::string OpenTrainer::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="open "+trainerId;
+    returnString+=" ";
+    for(auto customer:customers){
+        returnString+=customer->toString();
+    }
+    if(getStatus()==COMPLETED)
+        returnString+=" Completed";
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *OpenTrainer::clone() const {
+    std::vector<Customer*> copyOfCustomers;
+    for(auto customer:customers){
+        copyOfCustomers.push_back(customer->clone());
+    }
+    return new OpenTrainer(trainerId,copyOfCustomers);
 }
 
 Order::Order(int id) :trainerId(id){
@@ -57,10 +76,21 @@ void Order::act(Studio &studio) {
         std::vector<int> workoutsId=iter->order(studio.getWorkoutOptions());
         trainer->order(iter->getId(),workoutsId,studio.getWorkoutOptions());
     }
+    complete();
 }
 
 std::string Order::toString() const {
-    return std::string();
+    std::string returnString="Order "+trainerId;
+    if(getStatus()==COMPLETED){
+        returnString+=" Completed";
+    }
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *Order::clone() const {
+    return new Order(trainerId);
 }
 
 MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstTrainer(dst),id(customerId) {
@@ -72,7 +102,7 @@ void MoveCustomer::act(Studio &studio) {
     
     Trainer* trainerSrc=studio.getTrainer(srcTrainer);
     Trainer* trainerDst=studio.getTrainer(dstTrainer);
-    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest->isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
+    if(trainerDst== nullptr || trainerSrc== nullptr || trainerSrc->isOpen()== false|| trainerDst->isOpen()==false || trainerDst->getCustomers().size()==trainerDst->getCapacity() || std::find(trainerSrc->getCustomers().begin(), trainerSrc->getCustomers().end(),this->id )!=trainerSrc->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
     {
         this->error("Cannot move customer");
     }
@@ -86,15 +116,28 @@ void MoveCustomer::act(Studio &studio) {
       trainerSrc->removeCustomer(id);
       trainerDst->addCustomer(customerToAdd);
       trainerDst->order(id,ordersToMove,studio.getWorkoutOptions());
-      if(trainer_soruce->getCustomers().size()==0)
+      if(trainerSrc->getCustomers().size()==0)
       {
-          trainer_soruce->closeTrainer();
+          trainerSrc->closeTrainer();
       }
     }
 }
 
 std::string MoveCustomer::toString() const {
-    return std::string();
+    std::string returnValue;
+    returnValue+="move "+srcTrainer;
+    returnValue+=" "+dstTrainer;
+    returnValue+=" "+id;
+    if(getStatus()==COMPLETED){
+        returnValue+=" Completed";
+    }
+    else
+        returnValue+=" Error: "+getErrorMsg();
+    return returnValue;
+}
+
+BaseAction *MoveCustomer::clone() const {
+    return new MoveCustomer(srcTrainer,dstTrainer,id);
 }
 
 Close::Close(int id):trainerId(id) {
@@ -118,7 +161,18 @@ void Close::act(Studio &studio) {
 }
 
 std::string Close::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="close "+trainerId;
+    if(getStatus()==COMPLETED){
+        returnString+=" Completed";
+    }
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *Close::clone() const {
+    return new Close(trainerId);
 }
 
 CloseAll::CloseAll() {
@@ -137,7 +191,11 @@ void CloseAll::act(Studio &studio) {
 }
 
 std::string CloseAll::toString() const {
-    return std::string();
+    return "closeall is completed";
+}
+
+BaseAction *CloseAll::clone() const {
+    return new CloseAll();
 }
 
 PrintWorkoutOptions::PrintWorkoutOptions() {
@@ -153,7 +211,11 @@ void PrintWorkoutOptions::act(Studio &studio) {
 }
 
 std::string PrintWorkoutOptions::toString() const {
-    return std::string();
+    return "workout_options";
+}
+
+BaseAction *PrintWorkoutOptions::clone() const {
+    return new PrintWorkoutOptions();
 }
 
 PrintTrainerStatus::PrintTrainerStatus(int id):trainerId(id) {
@@ -182,10 +244,18 @@ void PrintTrainerStatus::act(Studio &studio) {
         std::cout<<"current trainer's salary: "<<trainer->getSalary()<<std::endl;
 
     }
+    complete();
 }
 
 std::string PrintTrainerStatus::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="status "+trainerId;
+    returnString+=" Completed";
+    return returnString;
+}
+
+BaseAction *PrintTrainerStatus::clone() const {
+    return new PrintTrainerStatus(trainerId);
 }
 
 PrintActionsLog::PrintActionsLog() {
@@ -198,11 +268,15 @@ void PrintActionsLog::act(Studio &studio) {
         //str+=(*iter)->toString()+"\n";
         std::cout<<(*iter)->toString()<<std::endl;
     }
-
+    complete();
 }
 
 std::string PrintActionsLog::toString() const {
-    return std::string();
+    return "log is Completed";
+}
+
+BaseAction *PrintActionsLog::clone() const {
+    return new PrintActionsLog();
 }
 
 BackupStudio::BackupStudio() {
@@ -211,10 +285,15 @@ BackupStudio::BackupStudio() {
 
 void BackupStudio::act(Studio &studio) {
     backup=new Studio(studio);
+    complete();
 }
 
 std::string BackupStudio::toString() const {
-    return std::string();
+    return "backup completed";
+}
+
+BaseAction *BackupStudio::clone() const {
+    return new BackupStudio();
 }
 
 RestoreStudio::RestoreStudio() {
@@ -222,9 +301,24 @@ RestoreStudio::RestoreStudio() {
 }
 
 void RestoreStudio::act(Studio &studio) {
-    studio=*std::move(backup);
+    if(backup!= nullptr){
+        studio=*std::move(backup);
+        complete();
+    }
+    else
+        error("There is no backup");
 }
 
 std::string RestoreStudio::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="restore";
+    if(getStatus()==COMPLETED)
+        returnString+=" Completed";
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *RestoreStudio::clone() const {
+    return new RestoreStudio();
 }

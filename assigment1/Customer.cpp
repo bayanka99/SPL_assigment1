@@ -28,8 +28,12 @@ std::vector<int> SweatyCustomer::order(const std::vector<Workout> &workout_optio
 }
 
 std::string SweatyCustomer::toString() const {
-    std::string returnVal="my name is %s and I'm a sweaty customer with id of %d",getName(),getId();
+    std::string returnVal=getName()+",swt";
     return  returnVal;
+}
+
+Customer *SweatyCustomer::clone() const {
+    return new SweatyCustomer(getName(),getId());
 }
 
 CheapCustomer::CheapCustomer(std::string name, int id) : Customer(name, id) {
@@ -51,8 +55,12 @@ std::vector<int> CheapCustomer::order(const std::vector<Workout> &workout_option
 }
 
 std::string CheapCustomer::toString() const {
-    std::string returnVal="my name is %s and I'm a cheap customer with id of %d",getName(),getId();
+    std::string returnVal=getName()+", chp";
     return  returnVal;
+}
+
+Customer *CheapCustomer::clone() const{
+    return new CheapCustomer(getName(),getId());
 }
 
 HeavyMuscleCustomer::HeavyMuscleCustomer(std::string name, int id) : Customer(name, id) {
@@ -72,8 +80,12 @@ std::vector<int> HeavyMuscleCustomer::order(const std::vector<Workout> &workout_
 }
 
 std::string HeavyMuscleCustomer::toString() const {
-    std::string returnVal="my name is %s and I'm a heavy muscle customer with id of %d",getName(),getId();
+    std::string returnVal=getName()+",mcl";
     return  returnVal;
+}
+
+Customer *HeavyMuscleCustomer::clone() const{
+    return new HeavyMuscleCustomer(getName(),getId());
 }
 
 FullBodyCustomer::FullBodyCustomer(std::string name, int id) : Customer(name, id) {
@@ -102,8 +114,12 @@ std::vector<int> FullBodyCustomer::order(const std::vector<Workout> &workout_opt
 }
 
 std::string FullBodyCustomer::toString() const {
-    std::string returnVal="my name is %s and I'm a full body customer with id of %d",getName(),getId();
+    std::string returnVal=getName()+",fbd";
     return  returnVal;
+}
+
+Customer *FullBodyCustomer::clone() const {
+    return new FullBodyCustomer(getName(),getId());
 }
 
 bool compareWorkouts::operator()(const Workout &w1, const Workout &w2) {
