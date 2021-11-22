@@ -38,17 +38,35 @@ Studio::Studio(const std::string &configFilePath):open(false),id(0)
 
         //there is a chance it hase capacity of 202000
         std::string capacity_of_trainers=line;
-        capacity_of_trainers.erase(remove(capacity_of_trainers.begin(),capacity_of_trainers.end(),','),capacity_of_trainers.end());
+
+
         capacity_of_trainers.erase(remove(capacity_of_trainers.begin(),capacity_of_trainers.end(),' '),capacity_of_trainers.end());
 
-
-        int current_capacity=0;
-        while(number_of_trainers>0)
+        std::string currentcapacity="";
+        for(int currentindex=0;currentindex<capacity_of_trainers.size();currentindex++)
         {
-            trainers.push_back(new Trainer(capacity_of_trainers.at(current_capacity)));
-            current_capacity=current_capacity+1;
-            number_of_trainers=number_of_trainers-1;
+            if(capacity_of_trainers.at(currentindex)==',')
+            {
+                trainers.push_back(new Trainer(std::stoi(currentcapacity)));
+                currentcapacity="";
+            }
+            else
+            {
+                currentcapacity=currentcapacity+capacity_of_trainers.at(currentindex);
+            }
+
         }
+
+    //capacity_of_trainers.erase(remove(capacity_of_trainers.begin(),capacity_of_trainers.end(),','),capacity_of_trainers.end());
+
+
+      //  int current_capacity=0;
+      //  while(number_of_trainers>0)
+      //  {
+         //   trainers.push_back(new Trainer(capacity_of_trainers.at(current_capacity)));
+        //    current_capacity=current_capacity+1;
+           // number_of_trainers=number_of_trainers-1;
+       // }
 
     i_am_empty_or_hashtag=true;
 
@@ -71,7 +89,8 @@ Studio::Studio(const std::string &configFilePath):open(false),id(0)
     while(!i_am_empty_or_hashtag)
     {
         int current_string_length=workout_options.size();
-        while(i<current_string_length) {
+        while(i<current_string_length)
+        {
                 std::string current_word;
                  char current_char = workout_options.at(i);
                  while (current_char != ',') {
@@ -125,10 +144,8 @@ Studio::Studio(const std::string &configFilePath):open(false),id(0)
 
 
 
-
 void Studio::start()
 {
-
     char command[500];
     while(true)
     {
@@ -380,7 +397,24 @@ Studio &Studio::operator=(Studio &&other) {
     }
     other.trainers.clear();
     other.actionsLog.clear();
-  }
 
 
+}
 
+int Studio::getNumOfTrainers() const {
+    return this->trainers.size();
+}
+
+const std::vector<BaseAction *> &Studio::getActionsLog() const {
+    return this->actionsLog;
+}
+
+std::vector<Trainer *> Studio::getTrainers() {
+    return this->trainers;
+}
+
+Studio::Studio() {
+    this->open=true;
+
+
+}

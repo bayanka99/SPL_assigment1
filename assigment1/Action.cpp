@@ -28,8 +28,10 @@ std::string BaseAction::getErrorMsg() const {
     return errorMsg;
 }
 
+
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id) {
     customers=customersList;
+
 }
 
 void OpenTrainer::act(Studio &studio) {
@@ -120,6 +122,7 @@ void MoveCustomer::act(Studio &studio) {
       {
           trainerSrc->closeTrainer();
       }
+      complete();
     }
 }
 
@@ -157,6 +160,7 @@ void Close::act(Studio &studio) {
             delete *customer;
         }
         trainer->closeTrainer();
+        complete();
     }
 }
 
@@ -188,6 +192,7 @@ void CloseAll::act(Studio &studio) {
           delete studio.getTrainer(i);
         }
     }
+    this->complete();
 }
 
 std::string CloseAll::toString() const {
@@ -208,6 +213,7 @@ void PrintWorkoutOptions::act(Studio &studio) {
     {
         std::cout<<workout->getName()<<workout->getType()<<workout->getPrice()<<std::endl;
     }
+    this->complete();
 }
 
 std::string PrintWorkoutOptions::toString() const {
@@ -242,6 +248,7 @@ void PrintTrainerStatus::act(Studio &studio) {
             std::cout<<(*order).second.getName()<<" "<<(*order).second.getPrice()<<" "<<(*order).first<<std::endl;
         }
         std::cout<<"current trainer's salary: "<<trainer->getSalary()<<std::endl;
+        this->complete();
 
     }
     complete();
@@ -268,9 +275,8 @@ void PrintActionsLog::act(Studio &studio) {
         //str+=(*iter)->toString()+"\n";
         std::cout<<(*iter)->toString()<<std::endl;
     }
-    complete();
+    this->complete();
 }
-
 std::string PrintActionsLog::toString() const {
     return "log is Completed";
 }
@@ -284,9 +290,11 @@ BackupStudio::BackupStudio() {
 }
 
 void BackupStudio::act(Studio &studio) {
-    backup=new Studio(studio);
-    complete();
+    Studio* studio1=new Studio(studio);
+    backup=studio1;
+    this->complete();
 }
+
 
 std::string BackupStudio::toString() const {
     return "backup completed";
@@ -301,6 +309,7 @@ RestoreStudio::RestoreStudio() {
 }
 
 void RestoreStudio::act(Studio &studio) {
+
     if(backup!= nullptr){
         studio=*std::move(backup);
         complete();
