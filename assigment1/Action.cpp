@@ -27,8 +27,10 @@ std::string BaseAction::getErrorMsg() const {
     return errorMsg;
 }
 
+
 OpenTrainer::OpenTrainer(int id, std::vector<Customer *> &customersList):trainerId(id) {
     customers=customersList;
+
 }
 
 void OpenTrainer::act(Studio &studio) {
@@ -39,10 +41,13 @@ void OpenTrainer::act(Studio &studio) {
     else
     {
         studio.getTrainer(this->trainerId)->openTrainer();
+        this->complete();
+
     }
 }
 
 std::string OpenTrainer::toString() const {
+
     return std::string();
 }
 
@@ -56,6 +61,7 @@ void Order::act(Studio &studio) {
         std::vector<int> workoutsId=iter->order(studio.getWorkoutOptions());
         trainer->order(iter->getId(),workoutsId,studio.getWorkoutOptions());
     }
+    this->complete();
 }
 
 std::string Order::toString() const {
@@ -83,6 +89,7 @@ void MoveCustomer::act(Studio &studio) {
         {
             trainer_soruce->closeTrainer();
         }
+        this->complete();
     }
 }
 
@@ -107,6 +114,7 @@ void Close::act(Studio &studio) {
             delete *customer;
         }
         trainer->closeTrainer();
+        this->complete();
 
     }
 
@@ -124,11 +132,15 @@ CloseAll::CloseAll() {
 void CloseAll::act(Studio &studio) {
     for(int i=0;i<studio.getNumOfTrainers();i++)
     {
-        std::cout << "Trainer "<<i<<" Salary "<<studio.getTrainer(i)->getSalary()<<" NIS"<<std::endl;//if they are listed in the vector in regular order then it is ok
-        studio.getTrainer(i)->closeTrainer();
-        delete studio.getTrainer(i);
+       if(studio.getTrainer(i)->isOpen()) {
+           std::cout << "Trainer " << i << " Salary " << studio.getTrainer(i)->getSalary() << " NIS"
+                     << std::endl;//if they are listed in the vector in regular order then it is ok
+           studio.getTrainer(i)->closeTrainer();
+           delete studio.getTrainer(i);
+       }
 
     }
+    this->complete();
 }
 
 std::string CloseAll::toString() const {
@@ -145,6 +157,7 @@ void PrintWorkoutOptions::act(Studio &studio) {
     {
         std::cout<<workout->getName()<<workout->getType()<<workout->getPrice()<<std::endl;
     }
+    this->complete();
 }
 
 std::string PrintWorkoutOptions::toString() const {
@@ -175,6 +188,7 @@ void PrintTrainerStatus::act(Studio &studio) {
             std::cout<<(*order).second.getName()<<" "<<(*order).second.getPrice()<<" "<<(*order).first<<std::endl;
         }
         std::cout<<"current trainer's salary: "<<trainer->getSalary()<<std::endl;
+        this->complete();
 
     }
 }
@@ -193,10 +207,12 @@ void PrintActionsLog::act(Studio &studio) {
         //str+=(*iter)->toString()+"\n";
         std::cout<<(*iter)->toString()<<std::endl;
     }
+    this->complete();
 
 }
 
 std::string PrintActionsLog::toString() const {
+
     return std::string();
 }
 
@@ -207,10 +223,12 @@ BackupStudio::BackupStudio() {
 void BackupStudio::act(Studio &studio) {
     Studio* studio1=new Studio(studio);
     backup=studio1;
+    this->complete();
 }
 
 std::string BackupStudio::toString() const {
-    return std::string();
+
+    return "back up completed";
 }
 
 RestoreStudio::RestoreStudio() {
@@ -218,9 +236,27 @@ RestoreStudio::RestoreStudio() {
 }
 
 void RestoreStudio::act(Studio &studio) {
-    studio=*std::move(backup);
+    if(back!= nullptr) {
+        studio = *std::move(backup);
+        this->complete();
+    }
+    else
+    {
+        this->error("no backup availbe");
+    }
+
 }
 
 std::string RestoreStudio::toString() const {
-    return std::string();
+
+    if(this->getStatus()==ERROR)
+    {
+        return "no backup availbe";
+    }
+    else
+    {
+        return "backup completed";
+    }
+
+
 }

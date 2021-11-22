@@ -23,9 +23,11 @@ protected:
     void complete();
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
+
 private:
     std::string errorMsg;
     ActionStatus status;
+
 };
 
 
@@ -34,6 +36,7 @@ public:
     OpenTrainer(int id, std::vector<Customer *> &customersList);
     void act(Studio &studio);
     std::string toString() const;
+
 private:
 	const int trainerId;
 	std::vector<Customer *> customers;
