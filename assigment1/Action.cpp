@@ -18,6 +18,7 @@ void BaseAction::complete() {
 }
 
 void BaseAction::error(std::string errorMsg) {
+
     this->status=ERROR;
     this->errorMsg=errorMsg;
     std::cout<<"error: "<<errorMsg<<std::endl;
@@ -41,14 +42,30 @@ void OpenTrainer::act(Studio &studio) {
     else
     {
         studio.getTrainer(this->trainerId)->openTrainer();
-        this->complete();
-
+        complete();
     }
 }
 
 std::string OpenTrainer::toString() const {
+    std::string returnString;
+    returnString+="open "+trainerId;
+    returnString+=" ";
+    for(auto customer:customers){
+        returnString+=customer->toString();
+    }
+    if(getStatus()==COMPLETED)
+        returnString+=" Completed";
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
 
-    return std::string();
+BaseAction *OpenTrainer::clone() const {
+    std::vector<Customer*> copyOfCustomers;
+    for(auto customer:customers){
+        copyOfCustomers.push_back(customer->clone());
+    }
+    return new OpenTrainer(trainerId,copyOfCustomers);
 }
 
 Order::Order(int id) :trainerId(id){
@@ -61,11 +78,21 @@ void Order::act(Studio &studio) {
         std::vector<int> workoutsId=iter->order(studio.getWorkoutOptions());
         trainer->order(iter->getId(),workoutsId,studio.getWorkoutOptions());
     }
-    this->complete();
+    complete();
 }
 
 std::string Order::toString() const {
-    return std::string();
+    std::string returnString="Order "+trainerId;
+    if(getStatus()==COMPLETED){
+        returnString+=" Completed";
+    }
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *Order::clone() const {
+    return new Order(trainerId);
 }
 
 MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstTrainer(dst),id(customerId) {
@@ -74,27 +101,46 @@ MoveCustomer::MoveCustomer(int src, int dst, int customerId):srcTrainer(id),dstT
 
 void MoveCustomer::act(Studio &studio) {
 
-    Trainer* trainer_soruce=studio.getTrainer(this->srcTrainer);
-    Trainer* trainer_dest=studio.getTrainer(this->dstTrainer);
-    if(trainer_dest== nullptr || trainer_soruce== nullptr || trainer_soruce->isOpen()== false|| trainer_dest->isOpen()==false || trainer_dest->getCustomers().size()==trainer_dest->getCapacity() || std::find(trainer_soruce->getCustomers().begin(), trainer_soruce->getCustomers().end(),this->id )!=trainer_soruce->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
+    
+    Trainer* trainerSrc=studio.getTrainer(srcTrainer);
+    Trainer* trainerDst=studio.getTrainer(dstTrainer);
+    if(trainerDst== nullptr || trainerSrc== nullptr || trainerSrc->isOpen()== false|| trainerDst->isOpen()==false || trainerDst->getCustomers().size()==trainerDst->getCapacity() || std::find(trainerSrc->getCustomers().begin(), trainerSrc->getCustomers().end(),this->id )!=trainerSrc->getCustomers().end())// i am not sure if this is how to check if there is certain object in a vector
     {
         this->error("Cannot move customer");
     }
-    else
-    {
-        Customer* cust=trainer_soruce->getCustomer(this->id);
-        trainer_soruce->removeCustomer(this->id);
-        trainer_dest->addCustomer(cust);// i think there is no need to add pairs to dest trainer
-        if(trainer_soruce->getCustomers().size()==0)
-        {
-            trainer_soruce->closeTrainer();
-        }
-        this->complete();
+    else{
+      Customer* customerToAdd=studio.getTrainer(srcTrainer)->getCustomer(id);
+      std::vector<int> ordersToMove;
+      for(auto iter=trainerSrc->getOrders().begin();iter!=trainerSrc->getOrders().end();iter++){
+          if(iter->first==id)
+              ordersToMove.push_back(iter->second.getId());
+      }
+      trainerSrc->removeCustomer(id);
+      trainerDst->addCustomer(customerToAdd);
+      trainerDst->order(id,ordersToMove,studio.getWorkoutOptions());
+      if(trainerSrc->getCustomers().size()==0)
+      {
+          trainerSrc->closeTrainer();
+      }
+      complete();
     }
 }
 
 std::string MoveCustomer::toString() const {
-    return std::string();
+    std::string returnValue;
+    returnValue+="move "+srcTrainer;
+    returnValue+=" "+dstTrainer;
+    returnValue+=" "+id;
+    if(getStatus()==COMPLETED){
+        returnValue+=" Completed";
+    }
+    else
+        returnValue+=" Error: "+getErrorMsg();
+    return returnValue;
+}
+
+BaseAction *MoveCustomer::clone() const {
+    return new MoveCustomer(srcTrainer,dstTrainer,id);
 }
 
 Close::Close(int id):trainerId(id) {
@@ -108,21 +154,29 @@ void Close::act(Studio &studio) {
         std::cout<<"Trainer does not exist or is not open"<<std::endl;
     }
     else {
-        std::cout << "Trainer 2 closed. Salary "<<trainer->getSalary()<<" NIS"<<std::endl;
+        std::cout<<"Trainer "<<trainerId<<" closed. Salary "<<studio.getTrainer(trainerId)->getSalary()<<"NIS"<<std::endl;
         for(auto customer=trainer->getCustomers().begin();customer!=trainer->getCustomers().end();customer++)
         {
             delete *customer;
         }
         trainer->closeTrainer();
-        this->complete();
-
+        complete();
     }
-
-
 }
 
 std::string Close::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="close "+trainerId;
+    if(getStatus()==COMPLETED){
+        returnString+=" Completed";
+    }
+    else
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
+
+BaseAction *Close::clone() const {
+    return new Close(trainerId);
 }
 
 CloseAll::CloseAll() {
@@ -132,19 +186,21 @@ CloseAll::CloseAll() {
 void CloseAll::act(Studio &studio) {
     for(int i=0;i<studio.getNumOfTrainers();i++)
     {
-       if(studio.getTrainer(i)->isOpen()) {
-           std::cout << "Trainer " << i << " Salary " << studio.getTrainer(i)->getSalary() << " NIS"
-                     << std::endl;//if they are listed in the vector in regular order then it is ok
-           studio.getTrainer(i)->closeTrainer();
-           delete studio.getTrainer(i);
-       }
-
+        if(studio.getTrainer(i)->isOpen()){
+          std::cout << "Trainer "<<i<<" Salary "<<studio.getTrainer(i)->getSalary()<<" NIS"<<std::endl;//if they are listed in the vector in regular order then it is ok
+          studio.getTrainer(i)->closeTrainer();
+          delete studio.getTrainer(i);
+        }
     }
     this->complete();
 }
 
 std::string CloseAll::toString() const {
-    return std::string();
+    return "closeall is completed";
+}
+
+BaseAction *CloseAll::clone() const {
+    return new CloseAll();
 }
 
 PrintWorkoutOptions::PrintWorkoutOptions() {
@@ -161,7 +217,11 @@ void PrintWorkoutOptions::act(Studio &studio) {
 }
 
 std::string PrintWorkoutOptions::toString() const {
-    return std::string();
+    return "workout_options";
+}
+
+BaseAction *PrintWorkoutOptions::clone() const {
+    return new PrintWorkoutOptions();
 }
 
 PrintTrainerStatus::PrintTrainerStatus(int id):trainerId(id) {
@@ -191,10 +251,18 @@ void PrintTrainerStatus::act(Studio &studio) {
         this->complete();
 
     }
+    complete();
 }
 
 std::string PrintTrainerStatus::toString() const {
-    return std::string();
+    std::string returnString;
+    returnString+="status "+trainerId;
+    returnString+=" Completed";
+    return returnString;
+}
+
+BaseAction *PrintTrainerStatus::clone() const {
+    return new PrintTrainerStatus(trainerId);
 }
 
 PrintActionsLog::PrintActionsLog() {
@@ -208,12 +276,13 @@ void PrintActionsLog::act(Studio &studio) {
         std::cout<<(*iter)->toString()<<std::endl;
     }
     this->complete();
-
+}
+std::string PrintActionsLog::toString() const {
+    return "log is Completed";
 }
 
-std::string PrintActionsLog::toString() const {
-
-    return std::string();
+BaseAction *PrintActionsLog::clone() const {
+    return new PrintActionsLog();
 }
 
 BackupStudio::BackupStudio() {
@@ -226,9 +295,13 @@ void BackupStudio::act(Studio &studio) {
     this->complete();
 }
 
-std::string BackupStudio::toString() const {
 
-    return "back up completed";
+std::string BackupStudio::toString() const {
+    return "backup completed";
+}
+
+BaseAction *BackupStudio::clone() const {
+    return new BackupStudio();
 }
 
 RestoreStudio::RestoreStudio() {
@@ -236,27 +309,25 @@ RestoreStudio::RestoreStudio() {
 }
 
 void RestoreStudio::act(Studio &studio) {
-    if(back!= nullptr) {
-        studio = *std::move(backup);
-        this->complete();
+
+    if(backup!= nullptr){
+        studio=*std::move(backup);
+        complete();
     }
     else
-    {
-        this->error("no backup availbe");
-    }
-
+        error("There is no backup");
 }
 
 std::string RestoreStudio::toString() const {
-
-    if(this->getStatus()==ERROR)
-    {
-        return "no backup availbe";
-    }
+    std::string returnString;
+    returnString+="restore";
+    if(getStatus()==COMPLETED)
+        returnString+=" Completed";
     else
-    {
-        return "backup completed";
-    }
+        returnString+=" Error: "+getErrorMsg();
+    return returnString;
+}
 
-
+BaseAction *RestoreStudio::clone() const {
+    return new RestoreStudio();
 }
