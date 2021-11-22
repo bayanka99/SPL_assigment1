@@ -69,7 +69,6 @@ void Trainer::openTrainer() {
 }
 
 void Trainer::closeTrainer() {
-
     open= false;
 }
 
@@ -96,7 +95,7 @@ Trainer::~Trainer() {
 Trainer::Trainer(const Trainer &other):capacity(other.capacity),open(other.open),orderList(other.orderList)
 {
     for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++){
-        Customer* customer(*iter);
+        Customer* customer((*iter)->clone());
         customersList.push_back(customer);
     }
 }
@@ -115,7 +114,7 @@ Trainer &Trainer::operator=(const Trainer& other) {
         open=other.open;
         orderList=other.orderList;
         for(auto iter=other.customersList.begin();iter!=other.customersList.end();iter++) {
-            Customer *customer(*iter);
+            Customer *customer((*iter)->clone());
             customersList.push_back(customer);
         }
     }
