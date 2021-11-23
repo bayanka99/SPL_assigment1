@@ -6,15 +6,14 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(assigment1
-        Action.h
-        assigment1.cpp
-        Customer.cpp
-        Customer.h
-        main.cpp
-        Studio.cpp
-        Studio.h
-        Trainer.cpp
-        Trainer.h
-        Workout.h
-        Workout.cpp
-        Action.cpp)
+        include/Action.h
+        src/Customer.cpp
+        include/Customer.h
+        src/main.cpp
+        src/Studio.cpp
+        include/Studio.h
+        src/Trainer.cpp
+        include/Trainer.h
+        include/Workout.h
+        src/Workout.cpp
+        src/Action.cpp)

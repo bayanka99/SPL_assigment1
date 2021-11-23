@@ -1,8 +1,8 @@
-#include "Studio.h"
+#include "include/Studio.h"
 #include <fstream>
 #include <sstream>
 Studio::Studio() {
-
+    this->open=true;
 }
 Studio::Studio(const std::string &configFilePath):open(false),id(0)
 {
@@ -411,10 +411,4 @@ const std::vector<BaseAction *> &Studio::getActionsLog() const {
 
 std::vector<Trainer *> Studio::getTrainers() {
     return this->trainers;
-}
-
-Studio::Studio() {
-    this->open=true;
-
-
 }

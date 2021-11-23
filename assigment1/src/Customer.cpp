@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "Customer.h"
+#include "include/Customer.h"
 
 Customer::Customer(std::string c_name, int c_id):name(c_name),id(c_id) {
 
